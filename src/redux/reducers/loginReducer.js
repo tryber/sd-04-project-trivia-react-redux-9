@@ -3,6 +3,7 @@ import { LOGIN_INFO } from '../actions/index';
 const inicialState = {
   name: '',
   gravatarMail: '',
+  score: '',
 };
 
 const loginPlayer = (state = inicialState, action) => {

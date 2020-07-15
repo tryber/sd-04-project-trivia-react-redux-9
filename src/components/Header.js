@@ -9,10 +9,9 @@ const Header = ({ name, score, gravatarMail }) => (
   </div>
 );
 
-const mapStateToProps = (state) => ({
-  name: state.name, // colocar nome do reducer
-  score: state.score, // to chutando esse nome
-  gravatarMail: state.gravatarMail,
-});
+const mapStateToProps = (state) => {
+  const { name, score, gravatarMail } = state.loginReducer;
+  return { name, score, gravatarMail };
+};
 
-export default connect(mapStateToProps, null)(Header);
+export default connect(mapStateToProps)(Header);
