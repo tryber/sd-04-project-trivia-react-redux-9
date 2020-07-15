@@ -4,8 +4,6 @@ import './App.css';
 
 import { getQuestions } from './services/api';
 
-console.log(getQuestions(localStorage.token))
-
 export default function App() {
   return (
     <div className="App">
