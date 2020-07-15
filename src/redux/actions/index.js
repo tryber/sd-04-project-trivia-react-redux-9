@@ -1,5 +1,5 @@
 import { getQuestions } from '../../services/api';
-// import HashMail from '../../services/md5';
+import HashMail from '../../services/md5';
 
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
@@ -30,8 +30,8 @@ export function getActionsQuestions(token) {
   };
 }
 
-// export const infoLogin = (email, name) => ({
-//   type: LOGIN_INFO,
-//   name,
-//   gravatar: HashMail(email),
-// });
+export const infoLogin = (email, name) => ({
+  type: LOGIN_INFO,
+  name,
+  gravatar: HashMail(email),
+});
