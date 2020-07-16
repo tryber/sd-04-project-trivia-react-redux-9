@@ -10,7 +10,7 @@ const incialState = {
   error: '',
 };
 
-const apiReducer = (state = incialState, action) => {
+const questionsReducer = (state = incialState, action) => {
   switch (action.type) {
     case REQUEST_QUESTIONS:
       return {
@@ -34,4 +34,4 @@ const apiReducer = (state = incialState, action) => {
   }
 };
 
-export default apiReducer;
+export default questionsReducer;
