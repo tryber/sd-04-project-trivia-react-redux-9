@@ -16,7 +16,7 @@ class Login extends React.Component {
   }
 
   dispatchToProps() {
-    const { dataQuestions, login } = this.props;
+    const { /* dataQuestions, */ login } = this.props;
     const { name, email } = this.state;
     login(name, email);
     // dataQuestions();
@@ -69,7 +69,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  dataQuestions: (token) => dispatch(getActionsQuestions(token)),
+  /* dataQuestions: (token) => dispatch(getActionsQuestions(token)), */
   login: (email, name) => dispatch(infoLogin(email, name)),
 });
 

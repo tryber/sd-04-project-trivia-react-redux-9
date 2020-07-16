@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import './App.css';
 import { getActionsQuestions } from './redux/actions';
 
-import { fetchApiToken } from './services/api';
-import Login from './components/Login';
+// import { fetchApiToken } from './services/api';
 import Routes from './routes';
 
 function App() {
