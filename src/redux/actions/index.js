@@ -1,5 +1,5 @@
-import { getQuestions } from '../../service/api';
-import HashMail from '../../service/md5';
+import { getQuestions } from '../../services/api';
+import HashMail from '../../services/md5';
 
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
