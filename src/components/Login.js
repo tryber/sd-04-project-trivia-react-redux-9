@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom'; => Link pai do button
+import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
 import { getActionsQuestions, infoLogin } from '../redux/actions';
 
@@ -29,7 +29,7 @@ class Login extends React.Component {
       disable = true;
     }
     return (
-      // <Link>
+      <Link to="/question">
       <button
         type="button"
         data-testid="btn-play"
@@ -38,6 +38,7 @@ class Login extends React.Component {
       >
         JOGAR!
       </button>
+      </Link>
     );
   }
 
