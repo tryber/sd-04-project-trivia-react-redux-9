@@ -11,15 +11,16 @@ class Ranking extends React.Component {
   renderRanking(ranking) {
     return (
       <ul>
-      {ranking.sort((a, b) => b.score - a.score).map((player, index) => (
-        <li>
-          <img src={player.picture} alt={player.name} />
-          <p data-testid={`player-name-${index}`}>{player.name}</p>
-          <p data-testid={`player-score-${index}`}>{player.score}</p>
-        </li>
-      ))
-      }
-    </ul>
+        {ranking
+          .sort((a, b) => b.score - a.score)
+          .map((player, index) => (
+            <li>
+              <img src={player.picture} alt={player.name} />
+              <p data-testid={`player-name-${index}`}>{player.name}</p>
+              <p data-testid={`player-score-${index}`}>{player.score}</p>
+            </li>
+          ))}
+      </ul>
     );
   }
 
@@ -30,9 +31,7 @@ class Ranking extends React.Component {
     return (
       <div>
         <h3>Ranking</h3>
-        <div>
-          {this.renderRanking(ranking)}
-        </div>
+        <div>{this.renderRanking(ranking)}</div>
         <div>
           <button data-testid="btn-go-home">
             <Link to="/">Voltar ao Início</Link>
