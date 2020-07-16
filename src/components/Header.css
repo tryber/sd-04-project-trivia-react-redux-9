@@ -1,0 +1,21 @@
+.header {
+  align-items: center;
+  background-color: white;
+  border: 1px solid rgb(41, 77, 119);
+  border-radius: 20px;
+  color: rgb(41, 77, 119);
+  display: flex;
+  font-family: Nunito, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-top: 5px;
+  padding: 5px 30px 7px;
+  width: 470px;
+}
+
+.header-profile-picture {
+  border: 1px solid rgb(41, 77, 119);
+  border-radius: 50%;
+}
