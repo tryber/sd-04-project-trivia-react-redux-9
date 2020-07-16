@@ -16,6 +16,7 @@ class Question extends Component {
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
+    this.renderAnswers = this.renderAnswers.bind(this);
   }
 
   // componentDidMount() {
@@ -38,6 +39,33 @@ class Question extends Component {
     return this.setState({ questionNumber });
   }
 
+  renderAnswers() {
+    const { questions } = this.props;
+    const { questionNumber } = this.state;
+    return (
+      <div className="answers-options">
+        <button
+          onClick={this.nextQuestion}
+          type="button"
+          className="answers-option"
+          data-testid="correct-answer"
+        >
+          {questions[questionNumber].correct_answer}
+        </button>
+        {questions[questionNumber].incorrect_answers.map((incorrectAnswer) => (
+          <button
+            onClick={this.nextQuestion}
+            type="button"
+            className="answers-option"
+            data-testid="wrong-answer"
+          >
+            {incorrectAnswer}
+          </button>
+        ))}
+      </div>
+    );
+  }
+
   render() {
     const { isFetching, questions } = this.props;
     const { questionNumber, redirect } = this.state;
@@ -55,26 +83,7 @@ class Question extends Component {
               {questions[questionNumber].question}
             </p>
           </div>
-          <div className="answers-options">
-            <button
-              onClick={this.nextQuestion}
-              type="button"
-              className="answers-option"
-              data-testid="correct-answer"
-            >
-              {questions[questionNumber].correct_answer}
-            </button>
-            {questions[questionNumber].incorrect_answers.map((incorrectAnswer) => (
-              <button
-                onClick={this.nextQuestion}
-                type="button"
-                className="answers-option"
-                data-testid="wrong-answer"
-              >
-                {incorrectAnswer}
-              </button>
-            ))}
-          </div>
+          {this.renderAnswers()}
           <div className="timer-and-next-button">
             <div className="timer">Tempo: {this.state.seconds}</div>
             <button type="button" data-testid="btn-next" className="btn-next">
