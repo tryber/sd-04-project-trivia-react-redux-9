@@ -6,6 +6,8 @@ import Proptypes from 'prop-types';
 import { tokenToLocalStorage } from '../services/api';
 import { gettingToken, getActionsQuestions, infoLogin } from '../redux/actions';
 
+import './Login.css';
+
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -39,6 +41,7 @@ class Login extends React.Component {
           data-testid="btn-play"
           onClick={this.dispatchToProps}
           disabled={disable}
+          className="logion-button"
         >
           JOGAR!
         </button>
@@ -48,14 +51,15 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="login-component">
         <form>
           <div>
             <input
               onChange={(e) => this.setState({ email: e.target.value })}
               type="email"
               data-testid="input-gravatar-email"
-              placeholder="Email-Login"
+              placeholder="E-mail"
+              className="login-input"
             />
           </div>
           <div>
@@ -63,7 +67,8 @@ class Login extends React.Component {
               onChange={(e) => this.setState({ name: e.target.value })}
               type="text"
               data-testid="input-player-name"
-              placeholder="nome"
+              placeholder="Name"
+              className="login-input"
             />
           </div>
           <div>{this.play()}</div>

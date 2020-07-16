@@ -1,0 +1,44 @@
+body {
+  text-align: center;
+}
+
+.login-component {
+  align-items: center;
+  background-color: white;
+  border: 1px solid rgb(41, 77, 119);
+  border-radius: 20px;
+  color: rgb(41, 77, 119);
+  display: flex;
+  font-family: Nunito, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 50px;
+  width: 200px;
+  flex-direction: column;
+}
+
+.login-input {
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  color: gray;
+  font-family: Nunito, sans-serif;
+  font-size: 20px;
+  margin-bottom: 15px;
+  padding: 10px
+}
+
+.logion-button {
+  background-color: rgb(252, 168, 47);
+  border: 1px solid rgb(254, 213, 155);
+  border-radius: 10px;
+  color: white;
+  font-family: Nunito, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 15px 35px;
+}
+
+.logion-button:disabled {
+  background-color: rgb(254, 213, 155);
+}
