@@ -4,13 +4,15 @@ import './App.css';
 
 import { getQuestions } from './services/api';
 
+import Question from './pages/question/Question';
 export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
+    <Question />
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>SUA VEZ</p>
-      </header>
+      </header> */}
     </div>
   );
 }
