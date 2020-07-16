@@ -1,11 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const Header = ({ name, score, gravatarMail }) => (
-  <div>
+import './Header.css';
+
+const Header = ({ name, score }) => ( // colocar gravatarMail
+  <div className="header">
     <p data-testid="header-player-name">Jogador:{name}</p>
     <p data-testid="header-score">Pontos:{score}</p>
-    <img data-testid="header-profile-picture" src={gravatarMail} />
+    {/* <img
+      className="header-profile-picture"
+      data-testid="header-profile-picture"
+      src={gravatarMail}
+    /> */}
+    <img
+      className="header-profile-picture"
+      data-testid="header-profile-picture"
+      src="https://s.gravatar.com/avatar/435bc5f303b8daae3ad9b05f2c342b4f?s=80"
+    />
   </div>
 );
 
