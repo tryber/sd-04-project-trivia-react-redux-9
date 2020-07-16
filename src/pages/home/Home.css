@@ -1,0 +1,10 @@
+img.logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo {
+    animation: shake infinite 0.82s cubic-bezier(.36,.07,.19,.97) both;
+  }
+}
