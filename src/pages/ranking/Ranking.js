@@ -2,9 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 class Ranking extends React.Component {
+  constructor(props) {
+    super(props);
 
-  renderRanking(ranking){
-    <ul>
+    this.renderRanking = this.renderRanking.bind(this);
+  }
+
+  renderRanking(ranking) {
+    return (
+      <ul>
       {ranking.sort((a, b) => b.score - a.score).map((player, index) => (
         <li>
           <img src={player.picture} alt={player.name} />
@@ -14,6 +20,7 @@ class Ranking extends React.Component {
       ))
       }
     </ul>
+    );
   }
 
   render() {
@@ -37,10 +44,3 @@ class Ranking extends React.Component {
 }
 
 export default Ranking;
-
-/* 
-a chave ranking deve conter a seguinte estrutura:
-[
-    {name: nome-da-pessoa, score: 10, picture: url-da-foto-no-gravatar}
-]
-*/
