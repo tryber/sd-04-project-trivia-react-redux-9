@@ -13,10 +13,7 @@ const incialState = {
 const questionsReducer = (state = incialState, action) => {
   switch (action.type) {
     case REQUEST_QUESTIONS:
-      return {
-        ...state,
-        isFetching: true,
-      };
+      return { ...state, isFetching: true };
     case REQUEST_QUESTIONS_SUCCESS:
       return {
         ...state,
