@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-// import questionsReducer from './questionsReducer';
-import loginInfo from './apiReducer';
+import apiReducer from './apiReducer';
+import loginReducer from './loginReducer';
 
-const rootReducer = combineReducers({ loginInfo });
+const rootReducer = combineReducers({ apiReducer, loginReducer });
 
 export default rootReducer;
