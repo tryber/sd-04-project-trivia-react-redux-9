@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
+
 import Header from '../../components/Header';
 import './Question.css';
 
@@ -45,7 +47,9 @@ class Question extends Component {
           </div>
           <div className="timer-and-next-button">
             <div className="timer">Tempo: {this.state.seconds}</div>
-            <button type="button" data-testid="btn-next" className="btn-next">Próxima</button>
+            <button type="button" data-testid="btn-next" className="btn-next">
+              Próxima
+            </button>
           </div>
         </div>
       </div>
@@ -56,4 +60,8 @@ class Question extends Component {
 
 // };
 
-export default Question;
+// const mapStateToProps = () => ({
+
+// })
+
+export default connect(null, null)(Question);

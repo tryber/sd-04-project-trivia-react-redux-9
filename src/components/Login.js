@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
-import { getActionsQuestions, infoLogin } from '../redux/actions';
+
+import { tokenToLocalStorage } from '../services/api';
+import { gettingToken, getActionsQuestions, infoLogin } from '../redux/actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -16,10 +18,12 @@ class Login extends React.Component {
   }
 
   dispatchToProps() {
-    const { /* dataQuestions, */ login } = this.props;
+    const { login, token, questions, tokenState } = this.props;
     const { name, email } = this.state;
     login(name, email);
-    // dataQuestions();
+    token();
+    tokenToLocalStorage();
+    questions(tokenState);
   }
 
   play() {
@@ -30,14 +34,14 @@ class Login extends React.Component {
     }
     return (
       <Link to="/question">
-      <button
-        type="button"
-        data-testid="btn-play"
-        onClick={this.dispatchToProps}
-        disabled={disable}
-      >
-        JOGAR!
-      </button>
+        <button
+          type="button"
+          data-testid="btn-play"
+          onClick={this.dispatchToProps}
+          disabled={disable}
+        >
+          JOGAR!
+        </button>
       </Link>
     );
   }
@@ -69,14 +73,19 @@ class Login extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  tokenState: state.tokenReducer.token,
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  /* dataQuestions: (token) => dispatch(getActionsQuestions(token)), */
   login: (email, name) => dispatch(infoLogin(email, name)),
+  token: (token) => dispatch(gettingToken(token)),
+  questions: (token) => dispatch(getActionsQuestions(token)),
 });
 
 Login.propTypes = {
-  dataQuestions: Proptypes.func.isRequired,
+  token: Proptypes.func.isRequired,
   login: Proptypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

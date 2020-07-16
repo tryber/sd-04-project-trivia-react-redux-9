@@ -5,7 +5,7 @@ export async function getToken() {
   );
 }
 
-export const fetchApiToken = () =>
+export const tokenToLocalStorage = () =>
   getToken().then((json) => localStorage.setItem('token', json.token));
 
 // Pegar perguntas e respostas

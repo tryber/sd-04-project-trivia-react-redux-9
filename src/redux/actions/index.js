@@ -1,10 +1,38 @@
-import { getQuestions } from '../../services/api';
+import { getToken, getQuestions } from '../../services/api';
 import HashMail from '../../services/md5';
+
+export const REQUEST_TOKEN = 'REQUEST_TOKEN';
+export const REQUEST_TOKEN_SUCCESS = 'REQUEST_TOKEN_SUCCESS';
+export const REQUEST_TOKEN_FAILURE = 'REQUEST_TOKEN_FAILURE';
 
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
 export const REQUEST_QUESTIONS_FAILURE = 'REQUEST_QUESTIONS_FAILURE';
 export const LOGIN_INFO = 'LOGIN_INFO';
+
+const requestToken = () => ({
+  type: REQUEST_TOKEN,
+});
+
+const successToken = ({ token }) => ({
+  type: REQUEST_TOKEN_SUCCESS,
+  token,
+});
+
+const failureToken = (error) => ({
+  type: REQUEST_TOKEN_FAILURE,
+  error,
+});
+
+export function gettingToken() {
+  return (dispatch) => {
+    dispatch(requestToken());
+    return getToken().then(
+      (token) => dispatch(successToken(token)),
+      (error) => dispatch(failureToken(error)),
+    );
+  };
+}
 
 const requestQuestions = () => ({
   type: REQUEST_QUESTIONS,
