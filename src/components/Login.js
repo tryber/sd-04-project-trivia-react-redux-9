@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom'; => Link pai do button
 import Proptypes from 'prop-types';
-import { getActionsQuestions, infoLogin } from '../redux/actions/index';
+import { getActionsQuestions, infoLogin } from '../redux/actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -11,25 +11,31 @@ class Login extends React.Component {
       name: '',
       email: '',
     };
+
+    this.dispatchToProps = this.dispatchToProps.bind(this);
   }
 
   dispatchToProps() {
     const { dataQuestions, login } = this.props;
     const { name, email } = this.state;
     login(name, email);
-    dataQuestions();
+    // dataQuestions();
   }
 
   play() {
     const { name, email } = this.state;
     let disable = false;
-    if (name < 2 || email < 3) {
+    if (name.length < 2 || email.length < 3) {
       disable = true;
     }
-
     return (
       // <Link>
-      <button type="button" data-testid="btn-play" onClick={this.dispatchToProps}>
+      <button
+        type="button"
+        data-testid="btn-play"
+        onClick={this.dispatchToProps}
+        disabled={disable}
+      >
         JOGAR!
       </button>
     );
