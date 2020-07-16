@@ -10,9 +10,9 @@ import Login from './components/Login';
 import Routes from './routes';
 
 function App(props) {
-  React.useEffect(() => {
-    fetchApiToken().then((token) => props.getActionsQuestions(token));
-  }, []);
+  // React.useEffect(() => {
+  //   fetchApiToken().then((token) => props.getActionsQuestions(token));
+  // }, []);
 
   return (
     <div className="App">
