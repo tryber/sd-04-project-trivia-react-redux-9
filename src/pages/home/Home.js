@@ -2,12 +2,10 @@ import React from 'react';
 
 import { Login } from '../../components';
 
-const Home = () => {
-  return (
-    <div>
-      <Login />
-    </div>
-  );
-};
+const Home = () => (
+  <div>
+    <Login />
+  </div>
+);
 
 export default Home;
