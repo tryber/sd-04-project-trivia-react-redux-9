@@ -30,14 +30,14 @@ class Login extends React.Component {
     }
     return (
       <Link to="/question">
-      <button
-        type="button"
-        data-testid="btn-play"
-        onClick={this.dispatchToProps}
-        disabled={disable}
-      >
-        JOGAR!
-      </button>
+        <button
+          type="button"
+          data-testid="btn-play"
+          onClick={this.dispatchToProps}
+          disabled={disable}
+        >
+          JOGAR!
+        </button>
       </Link>
     );
   }
