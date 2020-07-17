@@ -28,9 +28,6 @@ class Question extends Component {
       answers: [],
       timer: false,
     };
-
-    this.nextQuestion = this.nextQuestion.bind(this);
-    this.renderAnswers = this.renderAnswers.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -84,7 +81,6 @@ class Question extends Component {
     }));
     const allAnswers = [{ ...correctAnswer }, ...incorrectAnswers];
     const answers = randomAnswers(allAnswers);
-    // return answers
     return this.setState({ answers });
   }
 
