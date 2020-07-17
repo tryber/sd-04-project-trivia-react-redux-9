@@ -26,29 +26,40 @@ class Question extends Component {
       redirect: false,
       colorAnswer: false,
       answers: [],
+      timer: false,
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
     this.renderAnswers = this.renderAnswers.bind(this);
   }
 
-  // componentDidMount() {
-  //   setInterval(() => {
-  //     const { seconds } = this.state;
-  //     if (seconds > 0) {
-  //       this.setState((state) => ({
-  //         seconds: state.seconds - 1,
-  //       }));
-  //     }
-  //   }, 1000);
-  // }
-
   componentDidUpdate(prevProps, prevState) {
     const { isFetching } = this.props;
     const { questionNumber } = this.state;
     if (prevProps.isFetching !== isFetching || prevState.questionNumber !== questionNumber) {
       this.createAnswers();
+      this.timer();
     }
+  }
+
+  timer() {
+    const { timer } = this.state;
+    this.setState({ seconds: 30 });
+
+    if (timer) {
+      clearInterval(timer);
+    }
+
+    const timerFunc = setInterval(() => {
+      const { seconds } = this.state;
+      if (seconds > 0) {
+        this.setState((state) => ({
+          seconds: state.seconds - 1,
+        }));
+      }
+    }, 1000);
+
+    this.setState({ timer: timerFunc });
   }
 
   nextQuestion() {
