@@ -24,24 +24,43 @@ class Question extends Component {
       seconds: 30,
       questionNumber: 0,
       redirect: false,
+      colorAnswer: false,
+      answers: [],
+      timer: false,
     };
-
-    this.nextQuestion = this.nextQuestion.bind(this);
-    this.renderAnswers = this.renderAnswers.bind(this);
   }
 
-  // componentDidMount() {
-  //   setInterval(() => {
-  //     const { seconds } = this.state;
-  //     if (seconds > 0) {
-  //       this.setState((state) => ({
-  //         seconds: state.seconds - 1,
-  //       }));
-  //     }
-  //   }, 1000);
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    const { isFetching } = this.props;
+    const { questionNumber } = this.state;
+    if (prevProps.isFetching !== isFetching || prevState.questionNumber !== questionNumber) {
+      this.createAnswers();
+      this.timer();
+    }
+  }
+
+  timer() {
+    const { timer } = this.state;
+    this.setState({ seconds: 30 });
+
+    if (timer) {
+      clearInterval(timer);
+    }
+
+    const timerFunc = setInterval(() => {
+      const { seconds } = this.state;
+      if (seconds > 0) {
+        this.setState((state) => ({
+          seconds: state.seconds - 1,
+        }));
+      }
+    }, 1000);
+
+    this.setState({ timer: timerFunc });
+  }
 
   nextQuestion() {
+    this.setState({ colorAnswer: false });
     let { questionNumber } = this.state;
     const { questions } = this.props;
     if (questionNumber === questions.length - 1) {
@@ -51,7 +70,7 @@ class Question extends Component {
     return this.setState({ questionNumber });
   }
 
-  renderAnswers() {
+  createAnswers() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
     const correctAnswer = { answer: questions[questionNumber].correct_answer, isCorrect: true };
@@ -61,27 +80,36 @@ class Question extends Component {
       index,
     }));
     const allAnswers = [{ ...correctAnswer }, ...incorrectAnswers];
+    const answers = randomAnswers(allAnswers);
+    return this.setState({ answers });
+  }
 
-    return randomAnswers(allAnswers).map((answer) => {
-      if (answer.isCorrect) {
-        return (
-          <button
-            onClick={this.nextQuestion}
-            type="button"
-            className="answers-option"
-            data-testid="correct-answer"
-            key={answer.answer}
-          >
-            {answer.answer}
-          </button>
-        );
-      }
+  renderQuestions() {
+    const { questions } = this.props;
+    const { questionNumber } = this.state;
+    return (
+      <div className="question">
+        <span data-testid="question-category" className="question-category">
+          {questions[questionNumber].category}
+        </span>
+        <p data-testid="question-text" className="question-text">
+          {questions[questionNumber].question}
+        </p>
+      </div>
+    );
+  }
+
+  renderAnswers() {
+    const { answers, colorAnswer } = this.state;
+    return answers.map((answer) => {
+      const dataTestid = answer.isCorrect ? 'correct-answer' : `wrong-answer-${answer.index}`;
+      const className = answer.isCorrect ? 'answers-option correct' : 'answers-option incorrect';
       return (
         <button
-          onClick={this.nextQuestion}
+          onClick={() => this.setState({ colorAnswer: true })}
           type="button"
-          className="answers-option"
-          data-testid={`wrong-answer-${answer.index}`}
+          className={colorAnswer ? className : 'answers-option'}
+          data-testid={dataTestid}
           key={answer.answer}
         >
           {answer.answer}
@@ -91,26 +119,24 @@ class Question extends Component {
   }
 
   render() {
-    const { isFetching, questions } = this.props;
-    const { questionNumber, redirect } = this.state;
+    const { isFetching } = this.props;
+    const { redirect } = this.state;
     if (isFetching) return <div>Loading...</div>;
     if (redirect) return <Redirect to="/" />;
     return (
       <div className="question-page-container">
         <Header />
         <div className="question-and-answers">
-          <div className="question">
-            <span data-testid="question-category" className="question-category">
-              {questions[questionNumber].category}
-            </span>
-            <p data-testid="question-text" className="question-text">
-              {questions[questionNumber].question}
-            </p>
-          </div>
+          {this.renderQuestions()}
           <div className="answers-options">{this.renderAnswers()}</div>
           <div className="timer-and-next-button">
             <div className="timer">Tempo: {this.state.seconds}</div>
-            <button type="button" data-testid="btn-next" className="btn-next">
+            <button
+              type="button"
+              data-testid="btn-next"
+              className="btn-next"
+              onClick={this.nextQuestion}
+            >
               Próxima
             </button>
           </div>
