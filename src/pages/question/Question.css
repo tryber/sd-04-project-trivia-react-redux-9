@@ -51,6 +51,9 @@
   height: 80px;
   margin-bottom: 15px;
 }
+.answers-option:disabled {
+  background-color: gray;
+}
 
 .correct {
   border: 3px solid rgb(6, 240, 15);
@@ -86,4 +89,8 @@
   font-size: 18px;
   font-weight: 600;
   padding: 15px 35px;
+}
+
+.btn-next:disabled {
+  visibility: hidden;
 }
