@@ -99,24 +99,9 @@ class Question extends Component {
     return this.setState({ answers });
   }
 
-  renderQuestions() {
-    const { questions } = this.props;
-    const { questionNumber } = this.state;
-    return (
-      <div className="question">
-        <span data-testid="question-category" className="question-category">
-          {questions[questionNumber].category}
-        </span>
-        <p data-testid="question-text" className="question-text">
-          {questions[questionNumber].question}
-        </p>
-      </div>
-    );
-  }
-
   handleClick(answer) {
     const { timer, seconds } = this.state;
-    const { updateScore } = this.props;
+
     clearInterval(timer);
     this.setState({ colorAnswer: true, disabled: true });
 
@@ -128,19 +113,19 @@ class Question extends Component {
       assertions = 1;
       switch (answer.difficulty) {
         case 'hard':
-          score = 10 + seconds * 3;
+          score = 10 + (seconds * 3);
           break;
         case 'medium':
-          score = 10 + seconds * 2;
+          score = 10 + (seconds * 2);
           break;
         case 'easy':
-          score = 10 + seconds * 1;
+          score = 10 + (seconds * 1);
           break;
         default:
           break;
       }
     }
-    updateScore(assertions, score);
+    this.props.updateScore(assertions, score);
   }
 
   renderAnswers() {
@@ -161,6 +146,21 @@ class Question extends Component {
         </button>
       );
     });
+  }
+
+  renderQuestions() {
+    const { questions } = this.props;
+    const { questionNumber } = this.state;
+    return (
+      <div className="question">
+        <span data-testid="question-category" className="question-category">
+          {questions[questionNumber].category}
+        </span>
+        <p data-testid="question-text" className="question-text">
+          {questions[questionNumber].question}
+        </p>
+      </div>
+    );
   }
 
   render() {
@@ -211,4 +211,5 @@ Question.propTypes = {
       incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     }),
   ).isRequired,
+  updateScore: PropTypes.func.isRequired,
 };

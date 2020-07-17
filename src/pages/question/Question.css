@@ -51,6 +51,7 @@
   height: 80px;
   margin-bottom: 15px;
 }
+
 .answers-option:disabled {
   background-color: gray;
 }
