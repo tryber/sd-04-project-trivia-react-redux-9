@@ -8,7 +8,9 @@ export const REQUEST_TOKEN_FAILURE = 'REQUEST_TOKEN_FAILURE';
 export const REQUEST_QUESTIONS = 'REQUEST_QUESTIONS';
 export const REQUEST_QUESTIONS_SUCCESS = 'REQUEST_QUESTIONS_SUCCESS';
 export const REQUEST_QUESTIONS_FAILURE = 'REQUEST_QUESTIONS_FAILURE';
+
 export const LOGIN_INFO = 'LOGIN_INFO';
+export const UPDATE_SCORE = 'UPDATE_SCORE';
 
 const requestToken = () => ({
   type: REQUEST_TOKEN,
@@ -62,4 +64,10 @@ export const infoLogin = (email, name) => ({
   type: LOGIN_INFO,
   name,
   gravatar: HashMail(email),
+});
+
+export const updateScore = (assertions, score) => ({
+  type: UPDATE_SCORE,
+  assertions,
+  score,
 });
