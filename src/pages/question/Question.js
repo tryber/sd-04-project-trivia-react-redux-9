@@ -6,6 +6,17 @@ import { Redirect } from 'react-router-dom';
 import Header from '../../components/Header';
 import './Question.css';
 
+const randomAnswers = (allAnswers) => {
+  const cloneAllAnswers = [...allAnswers];
+  for (let i = cloneAllAnswers.length - 1; i > 0; i -= 1) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    const tempValue = cloneAllAnswers[i];
+    cloneAllAnswers[i] = cloneAllAnswers[randomIndex];
+    cloneAllAnswers[randomIndex] = tempValue;
+  }
+  return cloneAllAnswers;
+};
+
 class Question extends Component {
   constructor(props) {
     super(props);
@@ -29,6 +40,7 @@ class Question extends Component {
   //     }
   //   }, 1000);
   // }
+
   nextQuestion() {
     let { questionNumber } = this.state;
     const { questions } = this.props;
@@ -42,28 +54,40 @@ class Question extends Component {
   renderAnswers() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
-    return (
-      <div className="answers-options">
-        <button
-          onClick={this.nextQuestion}
-          type="button"
-          className="answers-option"
-          data-testid="correct-answer"
-        >
-          {questions[questionNumber].correct_answer}
-        </button>
-        {questions[questionNumber].incorrect_answers.map((incorrectAnswer) => (
+    const correctAnswer = { answer: questions[questionNumber].correct_answer, isCorrect: true };
+    const incorrectAnswers = questions[questionNumber].incorrect_answers.map((answer, index) => ({
+      answer,
+      isCorrect: false,
+      index,
+    }));
+    const allAnswers = [{ ...correctAnswer }, ...incorrectAnswers];
+
+    return randomAnswers(allAnswers).map((answer) => {
+      if (answer.isCorrect) {
+        return (
           <button
             onClick={this.nextQuestion}
             type="button"
             className="answers-option"
-            data-testid="wrong-answer"
+            data-testid="correct-answer"
+            key={answer.answer}
           >
-            {incorrectAnswer}
+            {answer.answer}
           </button>
-        ))}
-      </div>
-    );
+        );
+      }
+      return (
+        <button
+          onClick={this.nextQuestion}
+          type="button"
+          className="answers-option"
+          data-testid={`wrong-answer-${answer.index}`}
+          key={answer.answer}
+        >
+          {answer.answer}
+        </button>
+      );
+    });
   }
 
   render() {
@@ -83,7 +107,7 @@ class Question extends Component {
               {questions[questionNumber].question}
             </p>
           </div>
-          {this.renderAnswers()}
+          <div className="answers-options">{this.renderAnswers()}</div>
           <div className="timer-and-next-button">
             <div className="timer">Tempo: {this.state.seconds}</div>
             <button type="button" data-testid="btn-next" className="btn-next">
