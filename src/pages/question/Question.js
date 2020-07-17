@@ -88,6 +88,21 @@ class Question extends Component {
     return this.setState({ answers });
   }
 
+  renderQuestions() {
+    const { questions } = this.props;
+    const { questionNumber } = this.state;
+    return (
+      <div className="question">
+        <span data-testid="question-category" className="question-category">
+          {questions[questionNumber].category}
+        </span>
+        <p data-testid="question-text" className="question-text">
+          {questions[questionNumber].question}
+        </p>
+      </div>
+    );
+  }
+
   renderAnswers() {
     const { answers, colorAnswer } = this.state;
     return answers.map((answer) => {
@@ -108,22 +123,15 @@ class Question extends Component {
   }
 
   render() {
-    const { isFetching, questions } = this.props;
-    const { questionNumber, redirect } = this.state;
+    const { isFetching } = this.props;
+    const { redirect } = this.state;
     if (isFetching) return <div>Loading...</div>;
     if (redirect) return <Redirect to="/" />;
     return (
       <div className="question-page-container">
         <Header />
         <div className="question-and-answers">
-          <div className="question">
-            <span data-testid="question-category" className="question-category">
-              {questions[questionNumber].category}
-            </span>
-            <p data-testid="question-text" className="question-text">
-              {questions[questionNumber].question}
-            </p>
-          </div>
+          {this.renderQuestions()}
           <div className="answers-options">{this.renderAnswers()}</div>
           <div className="timer-and-next-button">
             <div className="timer">Tempo: {this.state.seconds}</div>
