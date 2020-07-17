@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
+import { updateScore } from '../../redux/actions';
 import Header from '../../components/Header';
 import './Question.css';
 
@@ -27,7 +28,11 @@ class Question extends Component {
       colorAnswer: false,
       answers: [],
       timer: false,
+      disabled: false,
+      timeOut: false,
     };
+    this.nextQuestion = this.nextQuestion.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -40,7 +45,7 @@ class Question extends Component {
   }
 
   timer() {
-    const { timer } = this.state;
+    const { timer, timeOut } = this.state;
     this.setState({ seconds: 30 });
 
     if (timer) {
@@ -56,7 +61,13 @@ class Question extends Component {
       }
     }, 1000);
 
-    this.setState({ timer: timerFunc });
+    if (timeOut) {
+      clearTimeout(timeOut);
+    }
+
+    const timeOutFunc = setTimeout(() => this.setState({ disabled: true }), 30000);
+
+    this.setState({ timer: timerFunc, timeOut: timeOutFunc, disabled: false });
   }
 
   nextQuestion() {
@@ -73,7 +84,11 @@ class Question extends Component {
   createAnswers() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
-    const correctAnswer = { answer: questions[questionNumber].correct_answer, isCorrect: true };
+    const correctAnswer = {
+      answer: questions[questionNumber].correct_answer,
+      isCorrect: true,
+      difficulty: questions[questionNumber].difficulty,
+    };
     const incorrectAnswers = questions[questionNumber].incorrect_answers.map((answer, index) => ({
       answer,
       isCorrect: false,
@@ -82,6 +97,55 @@ class Question extends Component {
     const allAnswers = [{ ...correctAnswer }, ...incorrectAnswers];
     const answers = randomAnswers(allAnswers);
     return this.setState({ answers });
+  }
+
+  handleClick(answer) {
+    const { timer, seconds } = this.state;
+
+    clearInterval(timer);
+    this.setState({ colorAnswer: true, disabled: true });
+
+    let assertions = 0;
+    let score = 0;
+
+    console.log(answer);
+    if (answer.isCorrect) {
+      assertions = 1;
+      switch (answer.difficulty) {
+        case 'hard':
+          score = 10 + (seconds * 3);
+          break;
+        case 'medium':
+          score = 10 + (seconds * 2);
+          break;
+        case 'easy':
+          score = 10 + (seconds * 1);
+          break;
+        default:
+          break;
+      }
+    }
+    this.props.updateScore(assertions, score);
+  }
+
+  renderAnswers() {
+    const { answers, colorAnswer, disabled } = this.state;
+    return answers.map((answer) => {
+      const dataTestid = answer.isCorrect ? 'correct-answer' : `wrong-answer-${answer.index}`;
+      const className = answer.isCorrect ? 'answers-option correct' : 'answers-option incorrect';
+      return (
+        <button
+          onClick={() => this.handleClick(answer)}
+          type="button"
+          className={colorAnswer ? className : 'answers-option'}
+          data-testid={dataTestid}
+          key={answer.answer}
+          disabled={disabled}
+        >
+          {answer.answer}
+        </button>
+      );
+    });
   }
 
   renderQuestions() {
@@ -99,28 +163,9 @@ class Question extends Component {
     );
   }
 
-  renderAnswers() {
-    const { answers, colorAnswer } = this.state;
-    return answers.map((answer) => {
-      const dataTestid = answer.isCorrect ? 'correct-answer' : `wrong-answer-${answer.index}`;
-      const className = answer.isCorrect ? 'answers-option correct' : 'answers-option incorrect';
-      return (
-        <button
-          onClick={() => this.setState({ colorAnswer: true })}
-          type="button"
-          className={colorAnswer ? className : 'answers-option'}
-          data-testid={dataTestid}
-          key={answer.answer}
-        >
-          {answer.answer}
-        </button>
-      );
-    });
-  }
-
   render() {
     const { isFetching } = this.props;
-    const { redirect } = this.state;
+    const { redirect, disabled } = this.state;
     if (isFetching) return <div>Loading...</div>;
     if (redirect) return <Redirect to="/" />;
     return (
@@ -136,6 +181,7 @@ class Question extends Component {
               data-testid="btn-next"
               className="btn-next"
               onClick={this.nextQuestion}
+              disabled={!disabled}
             >
               Próxima
             </button>
@@ -151,7 +197,7 @@ const mapStateToProps = (state) => ({
   questions: state.questionsReducer.questions,
 });
 
-export default connect(mapStateToProps)(Question);
+export default connect(mapStateToProps, { updateScore })(Question);
 
 Question.propTypes = {
   isFetching: PropTypes.bool.isRequired,
@@ -165,4 +211,5 @@ Question.propTypes = {
       incorrect_answers: PropTypes.arrayOf(PropTypes.string),
     }),
   ).isRequired,
+  updateScore: PropTypes.func.isRequired,
 };
