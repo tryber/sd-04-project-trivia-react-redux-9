@@ -24,6 +24,8 @@ class Question extends Component {
       seconds: 30,
       questionNumber: 0,
       redirect: false,
+      colorAnswer: false,
+      answers: [],
     };
 
     this.nextQuestion = this.nextQuestion.bind(this);
@@ -41,7 +43,16 @@ class Question extends Component {
   //   }, 1000);
   // }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { isFetching } = this.props;
+    const { questionNumber } = this.state;
+    if (prevProps.isFetching !== isFetching || prevState.questionNumber !== questionNumber) {
+      this.createAnswers();
+    }
+  }
+
   nextQuestion() {
+    this.setState({ colorAnswer: false });
     let { questionNumber } = this.state;
     const { questions } = this.props;
     if (questionNumber === questions.length - 1) {
@@ -51,7 +62,7 @@ class Question extends Component {
     return this.setState({ questionNumber });
   }
 
-  renderAnswers() {
+  createAnswers() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
     const correctAnswer = { answer: questions[questionNumber].correct_answer, isCorrect: true };
@@ -61,27 +72,22 @@ class Question extends Component {
       index,
     }));
     const allAnswers = [{ ...correctAnswer }, ...incorrectAnswers];
+    const answers = randomAnswers(allAnswers);
+    // return answers
+    return this.setState({ answers });
+  }
 
-    return randomAnswers(allAnswers).map((answer) => {
-      if (answer.isCorrect) {
-        return (
-          <button
-            onClick={this.nextQuestion}
-            type="button"
-            className="answers-option"
-            data-testid="correct-answer"
-            key={answer.answer}
-          >
-            {answer.answer}
-          </button>
-        );
-      }
+  renderAnswers() {
+    const { answers, colorAnswer } = this.state;
+    return answers.map((answer) => {
+      const dataTestid = answer.isCorrect ? 'correct-answer' : `wrong-answer-${answer.index}`;
+      const className = answer.isCorrect ? 'answers-option correct' : 'answers-option incorrect';
       return (
         <button
-          onClick={this.nextQuestion}
+          onClick={() => this.setState({ colorAnswer: true })}
           type="button"
-          className="answers-option"
-          data-testid={`wrong-answer-${answer.index}`}
+          className={colorAnswer ? className : 'answers-option'}
+          data-testid={dataTestid}
           key={answer.answer}
         >
           {answer.answer}
@@ -110,7 +116,12 @@ class Question extends Component {
           <div className="answers-options">{this.renderAnswers()}</div>
           <div className="timer-and-next-button">
             <div className="timer">Tempo: {this.state.seconds}</div>
-            <button type="button" data-testid="btn-next" className="btn-next">
+            <button
+              type="button"
+              data-testid="btn-next"
+              className="btn-next"
+              onClick={this.nextQuestion}
+            >
               Próxima
             </button>
           </div>
