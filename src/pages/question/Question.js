@@ -52,7 +52,7 @@ class Question extends Component {
   }
 
   timer() {
-    const { timer/* , timeOut  */ } = this.state;
+    const { timer /* , timeOut  */ } = this.state;
     this.setState({ seconds: 30 });
 
     if (timer) {
@@ -117,19 +117,19 @@ class Question extends Component {
     this.setState({ colorAnswer: true, disabled: true });
 
     let assertions = 0;
-    let score = 0;
+    let score = 10;
 
     if (answer.isCorrect) {
       assertions = 1;
       switch (answer.difficulty) {
         case 'hard':
-          score = 10 + seconds * 3;
+          score += seconds * 3;
           break;
         case 'medium':
-          score = 10 + seconds * 2;
+          score += seconds * 2;
           break;
         case 'easy':
-          score = 10 + seconds * 1;
+          score += seconds;
           break;
         default:
           break;
