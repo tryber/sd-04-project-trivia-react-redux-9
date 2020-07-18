@@ -8,14 +8,23 @@ import Header from '../../components/Header';
 import './Question.css';
 
 const randomAnswers = (allAnswers) => {
-  const cloneAllAnswers = [...allAnswers];
-  for (let i = cloneAllAnswers.length - 1; i > 0; i -= 1) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    const tempValue = cloneAllAnswers[i];
-    cloneAllAnswers[i] = cloneAllAnswers[randomIndex];
-    cloneAllAnswers[randomIndex] = tempValue;
-  }
-  return cloneAllAnswers;
+  console.log('allAnswers', allAnswers);
+  const shuffledAnswers = [...allAnswers];
+  shuffledAnswers.forEach((answer, index, array) => {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomAnswer = shuffledAnswers[randomIndex];
+    shuffledAnswers[index] = randomAnswer;
+    shuffledAnswers[randomIndex] = answer;
+  });
+
+  // for (let i = shuffledAnswers.length - 1; i >= 0; i -= 1) {
+  //   const randomIndex = Math.floor(Math.random() * shuffledAnswers.length);
+  //   const valueToShuffle = shuffledAnswers[i];
+  //   shuffledAnswers[i] = shuffledAnswers[randomIndex];
+  //   shuffledAnswers[randomIndex] = valueToShuffle;
+  // }
+  console.log('return shuffledAnswers', shuffledAnswers);
+  return shuffledAnswers;
 };
 
 class Question extends Component {
@@ -113,13 +122,13 @@ class Question extends Component {
       assertions = 1;
       switch (answer.difficulty) {
         case 'hard':
-          score = 10 + (seconds * 3);
+          score = 10 + seconds * 3;
           break;
         case 'medium':
-          score = 10 + (seconds * 2);
+          score = 10 + seconds * 2;
           break;
         case 'easy':
-          score = 10 + (seconds * 1);
+          score = 10 + seconds * 1;
           break;
         default:
           break;
