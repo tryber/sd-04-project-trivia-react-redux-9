@@ -138,8 +138,24 @@ class Question extends Component {
     }
   }
 
+  renderQuestions() {
+    const { questions } = this.props;
+    const { questionNumber } = this.state;
+    return (
+      <div className="question">
+        <span data-testid="question-category" className="question-category">
+          {questions[questionNumber].category}
+        </span>
+        <p data-testid="question-text" className="question-text">
+          {questions[questionNumber].question}
+        </p>
+      </div>
+    );
+  }
+
   renderAnswers() {
     const { answers, colorAnswer, disabled } = this.state;
+    console.log(answers);
     return answers.map((answer) => {
       const dataTestid = answer.isCorrect ? 'correct-answer' : `wrong-answer-${answer.index}`;
       const className = answer.isCorrect ? 'answers-option correct' : 'answers-option incorrect';
@@ -156,21 +172,6 @@ class Question extends Component {
         </button>
       );
     });
-  }
-
-  renderQuestions() {
-    const { questions } = this.props;
-    const { questionNumber } = this.state;
-    return (
-      <div className="question">
-        <span data-testid="question-category" className="question-category">
-          {questions[questionNumber].category}
-        </span>
-        <p data-testid="question-text" className="question-text">
-          {questions[questionNumber].question}
-        </p>
-      </div>
-    );
   }
 
   render() {
