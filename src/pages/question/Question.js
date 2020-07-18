@@ -7,13 +7,13 @@ import { updateScore } from '../../redux/actions';
 import { Header } from '../../components';
 import './Question.css';
 
-const randomAnswers = (allAnswers) => {
+const shuffleAnswers = (allAnswers) => {
   const shuffledAnswers = [...allAnswers];
   shuffledAnswers.forEach((answer, index, array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
     const randomAnswer = shuffledAnswers[randomIndex];
-    shuffledAnswers[index] = randomAnswer;
     shuffledAnswers[randomIndex] = answer;
+    shuffledAnswers[index] = randomAnswer;
   });
 
   // for (let i = shuffledAnswers.length - 1; i >= 0; i -= 1) {
@@ -106,7 +106,7 @@ class Question extends Component {
       index,
     }));
     const allAnswers = [{ ...correctAnswer }, ...incorrectAnswers];
-    const answers = randomAnswers(allAnswers);
+    const answers = shuffleAnswers(allAnswers);
     return this.setState({ answers });
   }
 
@@ -155,7 +155,6 @@ class Question extends Component {
 
   renderAnswers() {
     const { answers, colorAnswer, disabled } = this.state;
-    console.log(answers);
     return answers.map((answer) => {
       const dataTestid = answer.isCorrect ? 'correct-answer' : `wrong-answer-${answer.index}`;
       const className = answer.isCorrect ? 'answers-option correct' : 'answers-option incorrect';
