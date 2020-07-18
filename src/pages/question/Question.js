@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
 import { updateScore } from '../../redux/actions';
-import Header from '../../components/Header';
+import { Header } from '../../components';
 import './Question.css';
 
 const randomAnswers = (allAnswers) => {
-  console.log('allAnswers', allAnswers);
   const shuffledAnswers = [...allAnswers];
   shuffledAnswers.forEach((answer, index, array) => {
     const randomIndex = Math.floor(Math.random() * array.length);
@@ -23,7 +22,6 @@ const randomAnswers = (allAnswers) => {
   //   shuffledAnswers[i] = shuffledAnswers[randomIndex];
   //   shuffledAnswers[randomIndex] = valueToShuffle;
   // }
-  console.log('return shuffledAnswers', shuffledAnswers);
   return shuffledAnswers;
 };
 
@@ -38,7 +36,7 @@ class Question extends Component {
       answers: [],
       timer: false,
       disabled: false,
-      timeOut: false,
+      // timeOut: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -54,7 +52,7 @@ class Question extends Component {
   }
 
   timer() {
-    const { timer, timeOut } = this.state;
+    const { timer/* , timeOut  */ } = this.state;
     this.setState({ seconds: 30 });
 
     if (timer) {
@@ -63,6 +61,10 @@ class Question extends Component {
 
     const timerFunc = setInterval(() => {
       const { seconds } = this.state;
+      if (seconds <= 1) {
+        this.setState({ disabled: true });
+        clearInterval(timer);
+      }
       if (seconds > 0) {
         this.setState((state) => ({
           seconds: state.seconds - 1,
@@ -70,13 +72,13 @@ class Question extends Component {
       }
     }, 1000);
 
-    if (timeOut) {
-      clearTimeout(timeOut);
-    }
+    // if (timeOut) {
+    //   clearTimeout(timeOut);
+    // }
 
-    const timeOutFunc = setTimeout(() => this.setState({ disabled: true }), 30000);
+    // const timeOutFunc = setTimeout(() => this.setState({ disabled: true }), 30000);
 
-    this.setState({ timer: timerFunc, timeOut: timeOutFunc, disabled: false });
+    this.setState({ timer: timerFunc, /* timeOut: timeOutFunc, */ disabled: false });
   }
 
   nextQuestion() {
@@ -117,7 +119,6 @@ class Question extends Component {
     let assertions = 0;
     let score = 0;
 
-    console.log(answer);
     if (answer.isCorrect) {
       assertions = 1;
       switch (answer.difficulty) {
@@ -133,8 +134,8 @@ class Question extends Component {
         default:
           break;
       }
+      this.props.updateScore(assertions, score);
     }
-    this.props.updateScore(assertions, score);
   }
 
   renderAnswers() {
@@ -176,7 +177,7 @@ class Question extends Component {
     const { isFetching } = this.props;
     const { redirect, disabled } = this.state;
     if (isFetching) return <div>Loading...</div>;
-    if (redirect) return <Redirect to="/" />;
+    if (redirect) return <Redirect to="/feedback" />;
     return (
       <div className="question-page-container">
         <Header />
