@@ -1,15 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Header } from '../../components';
 import Links from '../../components/Links';
 
-// Esses valores são apenas para copilar a aplicação por enquanto.
-// Esses dados devem ser buscados do Redux
-const score = 10;
-const assertions = 2;
-
 class Feedback extends React.Component {
   render() {
-    const messageFeedBack = assertions >= 3 ? 'Mandou bem!' : 'Podia ser Melhor...';
+    const { assertions, score } = this.props;
+
+    const messageFeedBack = assertions >= 3 ? 'Mandou bem!' : 'Podia ser melhor...';
     return (
       <div>
         <div>
@@ -23,5 +22,14 @@ class Feedback extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => ({
+  assertions: state.loginReducer.assertions,
+  score: state.loginReducer.score,
+})
 
-export default Feedback;
+Feedback.propTypes = {
+  assertions: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+}
+
+export default connect(mapStateToProps)(Feedback);

@@ -173,11 +173,36 @@ class Question extends Component {
     });
   }
 
+  updateRanking() {
+    const { name, assertions, score, gravatarEmail } = this.props;
+    const state = {
+      player: {
+        name,
+        assertions,
+        score,
+        gravatarEmail,
+      },
+    };
+    localStorage.state = JSON.stringify(state);
+    if (localStorage.ranking) {
+      const newRanking = [
+        ...JSON.parse(localStorage.ranking),
+        { name, score, picture: gravatarEmail },
+      ];
+      return (localStorage.ranking = JSON.stringify(newRanking));
+    } else {
+      localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]);
+    }
+  }
+
   render() {
     const { isFetching } = this.props;
     const { redirect, disabled } = this.state;
     if (isFetching) return <div>Loading...</div>;
-    if (redirect) return <Redirect to="/feedback" />;
+    if (redirect) {
+      this.updateRanking();
+      return <Redirect to="/feedback" />;
+    }
     return (
       <div className="question-page-container">
         <Header />
@@ -205,6 +230,10 @@ class Question extends Component {
 const mapStateToProps = (state) => ({
   isFetching: state.questionsReducer.isFetching,
   questions: state.questionsReducer.questions,
+  assertions: state.loginReducer.assertions,
+  name: state.loginReducer.name,
+  gravatarEmail: state.loginReducer.gravatarEmail,
+  score: state.loginReducer.score,
 });
 
 export default connect(mapStateToProps, { updateScore })(Question);
@@ -222,4 +251,8 @@ Question.propTypes = {
     }),
   ).isRequired,
   updateScore: PropTypes.func.isRequired,
+  assertions: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
 };
