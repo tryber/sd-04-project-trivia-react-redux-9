@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
 
-import { tokenToLocalStorage } from '../services/api';
-import { gettingToken, getActionsQuestions, infoLogin } from '../redux/actions';
+import { tokenToLocalStorage } from '../../services/api';
+import { gettingToken, getActionsQuestions, infoLogin } from '../../redux/actions';
 
 import './Login.css';
 
@@ -20,12 +20,12 @@ class Login extends React.Component {
   }
 
   dispatchToProps() {
-    const { login, token, questions, tokenState } = this.props;
+    const { login, getToken, getQuestions, token } = this.props;
     const { name, email } = this.state;
     login(name, email);
-    token();
+    getToken();
     tokenToLocalStorage();
-    questions(tokenState);
+    getQuestions(token);
   }
 
   play() {
@@ -79,17 +79,19 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  tokenState: state.tokenReducer.token,
+  token: state.tokenReducer.token,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   login: (email, name) => dispatch(infoLogin(email, name)),
-  token: (token) => dispatch(gettingToken(token)),
-  questions: (token) => dispatch(getActionsQuestions(token)),
+  getToken: (token) => dispatch(gettingToken(token)),
+  getQuestions: (token) => dispatch(getActionsQuestions(token)),
 });
 
 Login.propTypes = {
-  token: Proptypes.func.isRequired,
+  token: Proptypes.string.isRequired,
+  getToken: Proptypes.func.isRequired,
+  getQuestions: Proptypes.func.isRequired,
   login: Proptypes.func.isRequired,
 };
 
