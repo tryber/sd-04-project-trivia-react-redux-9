@@ -1,23 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Header.css';
+import { connect } from 'react-redux';
 
-const { name, score, gravatarEmail } = JSON.parse(localStorage.state.player);
+const Header = ({ name, gravatarEmail, score }) => {
+  localStorage.state = JSON.stringify({ player: { name, gravatarEmail, score } });
+  // const score = localStorage.state.player ? JSON.parse(localStorage.state.player.score) : 0;
 
-const Header = () => (
-  <div className="header">
-    <p data-testid="header-player-name">Player:{name}</p>
-    <p data-testid="header-score">Score:{score}</p>
-    <img
-      className="header-profile-picture"
-      data-testid="header-profile-picture"
-      alt={name}
-      src={gravatarEmail}
-    />
-  </div>
-);
+  return (
+    <div className="header">
+      <p data-testid="header-player-name">Player:{name}</p>
+      <p data-testid="header-score">Score:{score}</p>
+      <img
+        className="header-profile-picture"
+        data-testid="header-profile-picture"
+        alt={name}
+        src={gravatarEmail}
+      />
+    </div>
+  );
+};
 
-export default Header;
+const mapStateToProps = (state) => ({
+  name: state.loginReducer.name,
+  gravatarEmail: state.loginReducer.gravatarEmail,
+  score: state.loginReducer.score,
+});
+
+export default connect(mapStateToProps)(Header);
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
