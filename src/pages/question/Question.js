@@ -4,18 +4,25 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 
 import { updateScore } from '../../redux/actions';
-import Header from '../../components/Header';
+import { Header } from '../../components';
 import './Question.css';
 
-const randomAnswers = (allAnswers) => {
-  const cloneAllAnswers = [...allAnswers];
-  for (let i = cloneAllAnswers.length - 1; i > 0; i -= 1) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    const tempValue = cloneAllAnswers[i];
-    cloneAllAnswers[i] = cloneAllAnswers[randomIndex];
-    cloneAllAnswers[randomIndex] = tempValue;
-  }
-  return cloneAllAnswers;
+const shuffleAnswers = (allAnswers) => {
+  const shuffledAnswers = [...allAnswers];
+  shuffledAnswers.forEach((answer, index, array) => {
+    const randomIndex = Math.floor(Math.random() * array.length);
+    const randomAnswer = shuffledAnswers[randomIndex];
+    shuffledAnswers[randomIndex] = answer;
+    shuffledAnswers[index] = randomAnswer;
+  });
+
+  // for (let i = shuffledAnswers.length - 1; i >= 0; i -= 1) {
+  //   const randomIndex = Math.floor(Math.random() * shuffledAnswers.length);
+  //   const valueToShuffle = shuffledAnswers[i];
+  //   shuffledAnswers[i] = shuffledAnswers[randomIndex];
+  //   shuffledAnswers[randomIndex] = valueToShuffle;
+  // }
+  return shuffledAnswers;
 };
 
 class Question extends Component {
@@ -29,7 +36,7 @@ class Question extends Component {
       answers: [],
       timer: false,
       disabled: false,
-      timeOut: false,
+      // timeOut: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -45,7 +52,7 @@ class Question extends Component {
   }
 
   timer() {
-    const { timer, timeOut } = this.state;
+    const { timer /* , timeOut  */ } = this.state;
     this.setState({ seconds: 30 });
 
     if (timer) {
@@ -54,6 +61,10 @@ class Question extends Component {
 
     const timerFunc = setInterval(() => {
       const { seconds } = this.state;
+      if (seconds <= 1) {
+        this.setState({ disabled: true });
+        clearInterval(timer);
+      }
       if (seconds > 0) {
         this.setState((state) => ({
           seconds: state.seconds - 1,
@@ -61,13 +72,13 @@ class Question extends Component {
       }
     }, 1000);
 
-    if (timeOut) {
-      clearTimeout(timeOut);
-    }
+    // if (timeOut) {
+    //   clearTimeout(timeOut);
+    // }
 
-    const timeOutFunc = setTimeout(() => this.setState({ disabled: true }), 30000);
+    // const timeOutFunc = setTimeout(() => this.setState({ disabled: true }), 30000);
 
-    this.setState({ timer: timerFunc, timeOut: timeOutFunc, disabled: false });
+    this.setState({ timer: timerFunc, /* timeOut: timeOutFunc, */ disabled: false });
   }
 
   nextQuestion() {
@@ -95,7 +106,7 @@ class Question extends Component {
       index,
     }));
     const allAnswers = [{ ...correctAnswer }, ...incorrectAnswers];
-    const answers = randomAnswers(allAnswers);
+    const answers = shuffleAnswers(allAnswers);
     return this.setState({ answers });
   }
 
@@ -106,26 +117,40 @@ class Question extends Component {
     this.setState({ colorAnswer: true, disabled: true });
 
     let assertions = 0;
-    let score = 0;
+    let score = 10;
 
-    console.log(answer);
     if (answer.isCorrect) {
       assertions = 1;
       switch (answer.difficulty) {
         case 'hard':
-          score = 10 + (seconds * 3);
+          score += seconds * 3;
           break;
         case 'medium':
-          score = 10 + (seconds * 2);
+          score += seconds * 2;
           break;
         case 'easy':
-          score = 10 + (seconds * 1);
+          score += seconds;
           break;
         default:
           break;
       }
+      this.props.updateScore(assertions, score);
     }
-    this.props.updateScore(assertions, score);
+  }
+
+  renderQuestions() {
+    const { questions } = this.props;
+    const { questionNumber } = this.state;
+    return (
+      <div className="question">
+        <span data-testid="question-category" className="question-category">
+          {questions[questionNumber].category}
+        </span>
+        <p data-testid="question-text" className="question-text">
+          {questions[questionNumber].question}
+        </p>
+      </div>
+    );
   }
 
   renderAnswers() {
@@ -148,26 +173,11 @@ class Question extends Component {
     });
   }
 
-  renderQuestions() {
-    const { questions } = this.props;
-    const { questionNumber } = this.state;
-    return (
-      <div className="question">
-        <span data-testid="question-category" className="question-category">
-          {questions[questionNumber].category}
-        </span>
-        <p data-testid="question-text" className="question-text">
-          {questions[questionNumber].question}
-        </p>
-      </div>
-    );
-  }
-
   render() {
     const { isFetching } = this.props;
     const { redirect, disabled } = this.state;
     if (isFetching) return <div>Loading...</div>;
-    if (redirect) return <Redirect to="/" />;
+    if (redirect) return <Redirect to="/feedback" />;
     return (
       <div className="question-page-container">
         <Header />

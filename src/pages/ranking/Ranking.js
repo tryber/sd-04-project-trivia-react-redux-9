@@ -33,7 +33,7 @@ class Ranking extends React.Component {
         <h3>Ranking</h3>
         <div>{this.renderRanking(ranking)}</div>
         <div>
-          <button data-testid="btn-go-home">
+          <button type="button" data-testid="btn-go-home">
             <Link to="/">Voltar ao Início</Link>
           </button>
         </div>

@@ -61,7 +61,7 @@ export function getActionsQuestions(token) {
   };
 }
 
-export const infoLogin = (email, name) => ({
+export const infoLogin = (name, email) => ({
   type: LOGIN_INFO,
   name,
   gravatar: HashMail(email),
