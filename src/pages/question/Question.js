@@ -16,12 +16,6 @@ const shuffleAnswers = (allAnswers) => {
     shuffledAnswers[index] = randomAnswer;
   });
 
-  // for (let i = shuffledAnswers.length - 1; i >= 0; i -= 1) {
-  //   const randomIndex = Math.floor(Math.random() * shuffledAnswers.length);
-  //   const valueToShuffle = shuffledAnswers[i];
-  //   shuffledAnswers[i] = shuffledAnswers[randomIndex];
-  //   shuffledAnswers[randomIndex] = valueToShuffle;
-  // }
   return shuffledAnswers;
 };
 
@@ -127,7 +121,7 @@ class Question extends Component {
         default:
           break;
       }
-      this.props.updateScore(assertions, score);
+      return this.props.updateScore(assertions, score);
     }
   }
 
