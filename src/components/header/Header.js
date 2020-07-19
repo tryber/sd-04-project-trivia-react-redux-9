@@ -1,11 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Header.css';
 import { connect } from 'react-redux';
+import './Header.css';
 
 const Header = ({ name, gravatarEmail, score }) => {
   localStorage.state = JSON.stringify({ player: { name, gravatarEmail, score } });
-  // const score = localStorage.state.player ? JSON.parse(localStorage.state.player.score) : 0;
 
   return (
     <div className="header">
@@ -32,5 +31,5 @@ export default connect(mapStateToProps)(Header);
 Header.propTypes = {
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
-  gravatarMail: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
 };
