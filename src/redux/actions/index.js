@@ -53,6 +53,7 @@ const failureQuestions = (error) => ({
 export function getActionsQuestions(token) {
   return (dispatch) => {
     dispatch(requestQuestions());
+    console.log('requestQuestions()', getQuestions(token))
     return getQuestions(token).then(
       (questions) => dispatch(sucessQuestions(questions)),
       (error) => dispatch(failureQuestions(error)),
