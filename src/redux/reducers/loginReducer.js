@@ -2,7 +2,7 @@ import { LOGIN_INFO, UPDATE_SCORE } from '../actions/index';
 
 const inicialState = {
   name: '',
-  gravatarMail: '',
+  gravatarEmail: '',
   assertions: 0,
   score: 0,
 };
@@ -13,7 +13,7 @@ const loginReducer = (state = inicialState, action) => {
       return {
         ...state,
         name: action.name,
-        gravatarMail: `https://www.gravatar.com/avatar/${action.gravatar}`,
+        gravatarEmail: `https://www.gravatar.com/avatar/${action.gravatar}`,
       };
     case UPDATE_SCORE:
       return {

@@ -26,11 +26,10 @@ class Ranking extends React.Component {
 
   render() {
     const ranking = JSON.parse(localStorage.getItem('ranking'));
-    // JS não lê string
 
     return (
       <div>
-        <h3>Ranking</h3>
+        <h3 data-testid="ranking-title">Ranking</h3>
         <div>{this.renderRanking(ranking)}</div>
         <div>
           <button type="button" data-testid="btn-go-home">
