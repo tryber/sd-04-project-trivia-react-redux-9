@@ -129,6 +129,7 @@ class Question extends Component {
       }
       this.props.updateScore(assertions, score);
     }
+    return this.updateRanking();
   }
 
   updateRanking() {
@@ -192,7 +193,6 @@ class Question extends Component {
     const { redirect, disabled } = this.state;
     if (isFetching) return <div>Loading...</div>;
     if (redirect) {
-      this.updateRanking();
       return <Redirect to="/feedback" />;
     }
     return (
