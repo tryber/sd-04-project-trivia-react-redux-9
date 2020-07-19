@@ -1,5 +1,4 @@
 import React from 'react';
-//import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Ranking extends React.Component {
@@ -41,7 +40,5 @@ class Ranking extends React.Component {
     );
   }
 }
-
-
 
 export default Ranking;

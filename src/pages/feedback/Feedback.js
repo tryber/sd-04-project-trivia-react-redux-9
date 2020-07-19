@@ -25,11 +25,11 @@ class Feedback extends React.Component {
 const mapStateToProps = (state) => ({
   assertions: state.loginReducer.assertions,
   score: state.loginReducer.score,
-})
+});
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
-}
+};
 
 export default connect(mapStateToProps)(Feedback);

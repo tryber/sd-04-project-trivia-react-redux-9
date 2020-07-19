@@ -11,13 +11,14 @@ const Header = ({ name, score, gravatarMail }) => (
     <img
       className="header-profile-picture"
       data-testid="header-profile-picture"
+      alt={name}
       src={gravatarMail}
     />
   </div>
 );
 
 const mapStateToProps = (state) => ({
-  name: state.loginReducer.name, 
+  name: state.loginReducer.name,
   score: state.loginReducer.score,
   gravatarMail: state.loginReducer.gravatarMail,
 });

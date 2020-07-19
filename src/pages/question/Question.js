@@ -36,7 +36,6 @@ class Question extends Component {
       answers: [],
       timer: false,
       disabled: false,
-      // timeOut: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -52,7 +51,7 @@ class Question extends Component {
   }
 
   timer() {
-    const { timer /* , timeOut  */ } = this.state;
+    const { timer } = this.state;
     this.setState({ seconds: 30 });
 
     if (timer) {
@@ -72,13 +71,7 @@ class Question extends Component {
       }
     }, 1000);
 
-    // if (timeOut) {
-    //   clearTimeout(timeOut);
-    // }
-
-    // const timeOutFunc = setTimeout(() => this.setState({ disabled: true }), 30000);
-
-    this.setState({ timer: timerFunc, /* timeOut: timeOutFunc, */ disabled: false });
+    this.setState({ timer: timerFunc, disabled: false });
   }
 
   nextQuestion() {
@@ -138,6 +131,27 @@ class Question extends Component {
     }
   }
 
+  updateRanking() {
+    const { name, assertions, score, gravatarEmail } = this.props;
+    const state = {
+      player: {
+        name,
+        assertions,
+        score,
+        gravatarEmail,
+      },
+    };
+    localStorage.state = JSON.stringify(state);
+    if (localStorage.ranking) {
+      const newRanking = [
+        ...JSON.parse(localStorage.ranking),
+        { name, score, picture: gravatarEmail },
+      ];
+      return (localStorage.ranking = JSON.stringify(newRanking));
+    }
+    return (localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]));
+  }
+
   renderQuestions() {
     const { questions } = this.props;
     const { questionNumber } = this.state;
@@ -171,28 +185,6 @@ class Question extends Component {
         </button>
       );
     });
-  }
-
-  updateRanking() {
-    const { name, assertions, score, gravatarEmail } = this.props;
-    const state = {
-      player: {
-        name,
-        assertions,
-        score,
-        gravatarEmail,
-      },
-    };
-    localStorage.state = JSON.stringify(state);
-    if (localStorage.ranking) {
-      const newRanking = [
-        ...JSON.parse(localStorage.ranking),
-        { name, score, picture: gravatarEmail },
-      ];
-      return (localStorage.ranking = JSON.stringify(newRanking));
-    } else {
-      localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]);
-    }
   }
 
   render() {
