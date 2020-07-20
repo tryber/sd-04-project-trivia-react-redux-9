@@ -121,7 +121,8 @@ class Question extends Component {
         default:
           break;
       }
-      return this.props.updateScore(assertions, score);
+      this.props.updateScore(assertions, score);
+      return { assertions, score, timer, seconds };
     }
   }
 
