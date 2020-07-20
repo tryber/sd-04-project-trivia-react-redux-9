@@ -76,6 +76,7 @@ class Question extends Component {
       return this.setState({ redirect: true });
     }
     questionNumber += 1;
+    this.updateRanking();
     return this.setState({ questionNumber });
   }
 
@@ -146,9 +147,8 @@ class Question extends Component {
           break;
       }
       this.props.updateScore(assertions, score);
-      return this.updateRanking();
     }
-    return this.updateRanking();
+    return score;
   }
 
   renderQuestions() {
