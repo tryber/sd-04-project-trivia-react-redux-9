@@ -33,4 +33,5 @@ Header.propTypes = {
   name: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
+  assertions: PropTypes.number.isRequired,
 };

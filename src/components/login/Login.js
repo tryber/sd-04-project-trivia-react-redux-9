@@ -5,7 +5,7 @@ import Proptypes from 'prop-types';
 import { resetLogin } from '../../redux/actions';
 
 import { tokenToLocalStorage } from '../../services/api';
-import { gettingToken, getActionsQuestions, infoLogin } from '../../redux/actions';
+import { gettingToken, getActionsQuestions, infoLogin, resetScore } from '../../redux/actions';
 
 import './Login.css';
 
@@ -21,7 +21,8 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    this.props.reset();
+    const { resetToInitialValue } = this.props;
+    resetToInitialValue();
   }
 
   dispatchToProps() {
@@ -91,7 +92,7 @@ const mapDispatchToProps = (dispatch) => ({
   login: (email, name) => dispatch(infoLogin(email, name)),
   getToken: (token) => dispatch(gettingToken(token)),
   getQuestions: (token) => dispatch(getActionsQuestions(token)),
-  reset: () => dispatch(resetLogin()),
+  resetToInitialValue: () => dispatch(resetScore()),
 });
 
 Login.propTypes = {
@@ -99,6 +100,7 @@ Login.propTypes = {
   getToken: Proptypes.func.isRequired,
   getQuestions: Proptypes.func.isRequired,
   login: Proptypes.func.isRequired,
+  resetToInitialValue: Proptypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -162,18 +162,23 @@ describe('Ao clicar na resposta correta, pontos devem ser somados no placar da p
 
   it('soma pontos ao acertar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
-      const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(then.player.score).to.be.lt(now.player.score);
-    });
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR)
+      .click()
+      .then(() => {
+        const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(then.player.score).to.be.lt(now.player.score);
+      });
   });
 
   it('não soma pontos ao errar uma questão', () => {
     const then = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click().then(() => {
-      const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(then.player.score).to.be.eq(now.player.score);
-    });
+    cy.get(WRONG_ALTERNATIVES_SELECTOR)
+      .first()
+      .click()
+      .then(() => {
+        const now = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(then.player.score).to.be.eq(now.player.score);
+      });
   });
 });
 
@@ -222,10 +227,12 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(CORRECT_ALTERNATIVE_SELECTOR).click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
-    cy.get(CORRECT_ALTERNATIVE_SELECTOR).click().then(() => {
-      const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(before.player.score).to.be.lt(after.player.score);
-    });
+    cy.get(CORRECT_ALTERNATIVE_SELECTOR)
+      .click()
+      .then(() => {
+        const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(before.player.score).to.be.lt(after.player.score);
+      });
   });
 
   it('erra todas as perguntas', () => {
@@ -238,10 +245,13 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
     cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click();
     cy.get(BUTTON_NEXT_QUESTION_SELECTOR).click();
-    cy.get(WRONG_ALTERNATIVES_SELECTOR).first().click().then(() => {
-      const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
-      expect(before.player.score).to.be.eq(after.player.score);
-    });
+    cy.get(WRONG_ALTERNATIVES_SELECTOR)
+      .first()
+      .click()
+      .then(() => {
+        const after = JSON.parse(localStorage.getItem(LOCAL_STORAGE_STATE_KEY));
+        expect(before.player.score).to.be.eq(after.player.score);
+      });
   });
 
   it('redireciona para a tela de _feedback_ após a quinta pergunta', () => {
@@ -259,7 +269,7 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
   });
 });
 
-// // home
+// home
 
 describe('A pessoa que joga deve preencher as informações para iniciar um jogo', () => {
   beforeEach(() => {
@@ -319,13 +329,15 @@ describe('A pessoa jogadora deve iniciar um jogo', () => {
   it('inicia jogo salvando um token de jogador', () => {
     cy.get(INPUT_PLAYER_NAME_SELECTOR).type('Nome da pessoa');
     cy.get(INPUT_PLAYER_EMAIL_SELECTOR).type('email@pessoa.com');
-    cy.get(BUTTON_PLAY_SELECTOR).click().should(() => {
-      expect(localStorage.getItem(TOKEN_KEY)).not.to.be.null;
-    });
+    cy.get(BUTTON_PLAY_SELECTOR)
+      .click()
+      .should(() => {
+        expect(localStorage.getItem(TOKEN_KEY)).not.to.be.null;
+      });
   });
 });
 
-// // ranking
+// ranking;
 
 describe('Deve existir um botão para ir ao início', () => {
   it('volta para a tela inicial', () => {
@@ -449,7 +461,7 @@ describe('Apresentação do _ranking_', () => {
   });
 });
 
-// feedback
+// feedback;
 
 describe('O _header_ de _feedback_ deve conter as informações da pessoa jogadora', () => {
   beforeEach(() => {
