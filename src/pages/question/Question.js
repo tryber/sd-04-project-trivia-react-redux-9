@@ -45,19 +45,26 @@ class Question extends Component {
     }
   }
 
+  activeHurry(seconds) {
+    const { hurry } = this.state;
+    if (seconds <= 10 && !hurry) {
+      return this.setState({ hurry: true });
+    }
+    return null;
+  }
+
   timer() {
     const { timer } = this.state;
-    this.setState({ seconds: 12 });
+    this.setState({ seconds: 30 });
 
     if (timer) {
       clearInterval(timer);
     }
 
     const timerFunc = setInterval(() => {
-      const { seconds, hurry } = this.state;
-      if (seconds <= 10 && !hurry) {
-        this.setState({ hurry: true });
-      }
+      const { seconds } = this.state;
+      this.activeHurry(seconds);
+
       if (seconds <= 1) {
         this.setState({ disabled: true, hurry: false });
         clearInterval(timer);
