@@ -3,8 +3,8 @@ body {
 }
 
 .logo {
-  width: 250px;
   animation: beatingHeart 1s none infinite;
+  width: 250px;
 }
 
 @keyframes beatingHeart {

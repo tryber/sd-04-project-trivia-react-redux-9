@@ -55,7 +55,7 @@
 .answers-option:disabled {
   background-color: rgba(41, 77, 119, 0.5);
   color: black;
-  opacity: 80%;
+  opacity: 0.8;
 }
 
 .correct {

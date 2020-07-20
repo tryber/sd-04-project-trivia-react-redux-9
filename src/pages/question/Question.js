@@ -41,7 +41,7 @@ class Question extends Component {
     const { questionNumber } = this.state;
     if (prevProps.isFetching !== isFetching || prevState.questionNumber !== questionNumber) {
       this.createAnswers();
-      this.timer();
+      this.startTimer();
     }
   }
 
@@ -53,7 +53,7 @@ class Question extends Component {
     return null;
   }
 
-  timer() {
+  startTimer() {
     const { timer } = this.state;
     this.setState({ seconds: 30 });
 
