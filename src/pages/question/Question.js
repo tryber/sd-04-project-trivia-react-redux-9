@@ -141,9 +141,11 @@ class Question extends Component {
         ...JSON.parse(localStorage.ranking),
         { name, score, picture: gravatarEmail },
       ];
-      return (localStorage.ranking = JSON.stringify(newRanking));
+      localStorage.ranking = JSON.stringify(newRanking);
+      return newRanking;
     }
-    return (localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]));
+    localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]);
+    return { name, score, picture: gravatarEmail };
   }
 
   renderQuestions() {
