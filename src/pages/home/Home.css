@@ -4,10 +4,6 @@ body {
 
 .logo {
   width: 250px;
-  
-}
-
-.logo {
   animation: beatingHeart 1s none infinite;
 }
 
