@@ -337,7 +337,7 @@ describe('A pessoa jogadora deve iniciar um jogo', () => {
   });
 });
 
-ranking;
+// ranking;
 
 describe('Deve existir um botão para ir ao início', () => {
   it('volta para a tela inicial', () => {
@@ -461,7 +461,7 @@ describe('Apresentação do _ranking_', () => {
   });
 });
 
-feedback;
+// feedback;
 
 describe('O _header_ de _feedback_ deve conter as informações da pessoa jogadora', () => {
   beforeEach(() => {
