@@ -122,8 +122,9 @@ class Question extends Component {
           break;
       }
       this.props.updateScore(assertions, score);
-      return { assertions, score, timer, seconds };
+      return { assertions, score, timer, seconds, isCorret: answer.isCorrect };
     }
+    return { assertions, score, timer, seconds, isCorret: answer.isCorrect };
   }
 
   updateRanking() {
