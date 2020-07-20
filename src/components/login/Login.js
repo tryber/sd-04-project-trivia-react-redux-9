@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
+import { resetLogin } from '../../redux/actions';
 
 import { tokenToLocalStorage } from '../../services/api';
 import { gettingToken, getActionsQuestions, infoLogin } from '../../redux/actions';
@@ -17,6 +18,10 @@ class Login extends React.Component {
     };
 
     this.dispatchToProps = this.dispatchToProps.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.reset();
   }
 
   dispatchToProps() {
@@ -86,6 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
   login: (email, name) => dispatch(infoLogin(email, name)),
   getToken: (token) => dispatch(gettingToken(token)),
   getQuestions: (token) => dispatch(getActionsQuestions(token)),
+  reset: () => dispatch(resetLogin()),
 });
 
 Login.propTypes = {

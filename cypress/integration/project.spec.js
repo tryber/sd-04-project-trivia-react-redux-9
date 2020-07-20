@@ -259,7 +259,7 @@ describe('A pessoa que joga deve responder 5 perguntas no total', () => {
   });
 });
 
-// home
+// // home
 
 describe('A pessoa que joga deve preencher as informações para iniciar um jogo', () => {
   beforeEach(() => {
@@ -325,7 +325,7 @@ describe('A pessoa jogadora deve iniciar um jogo', () => {
   });
 });
 
-// ranking
+// // ranking
 
 describe('Deve existir um botão para ir ao início', () => {
   it('volta para a tela inicial', () => {

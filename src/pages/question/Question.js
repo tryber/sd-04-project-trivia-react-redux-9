@@ -144,10 +144,10 @@ class Question extends Component {
     };
     localStorage.state = JSON.stringify(state);
     if (localStorage.ranking) {
-      const newRanking = [
-        ...JSON.parse(localStorage.ranking),
-        { name, score, picture: gravatarEmail },
-      ];
+      const filteredPlayers = JSON.parse(localStorage.ranking).filter(
+        ({ picture }) => picture !== gravatarEmail,
+      );
+      const newRanking = [...filteredPlayers, { name, score, picture: gravatarEmail }];
       return (localStorage.ranking = JSON.stringify(newRanking));
     }
     return (localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]));
