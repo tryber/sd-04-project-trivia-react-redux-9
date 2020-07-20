@@ -11,6 +11,7 @@ export const REQUEST_QUESTIONS_FAILURE = 'REQUEST_QUESTIONS_FAILURE';
 
 export const LOGIN_INFO = 'LOGIN_INFO';
 export const UPDATE_SCORE = 'UPDATE_SCORE';
+export const RESET_SCORE = 'RESET_SCORE';
 
 const requestToken = () => ({
   type: REQUEST_TOKEN,
@@ -71,3 +72,5 @@ export const updateScore = (assertions, score) => ({
   assertions,
   score,
 });
+
+export const resetScore = () => ({ type: RESET_SCORE });

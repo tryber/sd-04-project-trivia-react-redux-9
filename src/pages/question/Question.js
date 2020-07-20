@@ -97,6 +97,30 @@ class Question extends Component {
     return this.setState({ answers });
   }
 
+  updateRanking() {
+    const { name, assertions, score, gravatarEmail } = this.props;
+    console.log(assertions);
+    const state = {
+      player: {
+        name,
+        assertions,
+        score,
+        gravatarEmail,
+      },
+    };
+    localStorage.state = JSON.stringify({ ...state });
+    if (localStorage.ranking) {
+      const filteredRanking = JSON.parse(localStorage.ranking).filter(
+        ({ picture }) => picture !== gravatarEmail,
+      );
+      const newRanking = [...filteredRanking, { name, score, picture: gravatarEmail }];
+      localStorage.ranking = JSON.stringify(newRanking);
+      return newRanking;
+    }
+    localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]);
+    return { name, score, picture: gravatarEmail };
+  }
+
   handleClick(answer) {
     const { timer, seconds } = this.state;
 
@@ -122,32 +146,9 @@ class Question extends Component {
           break;
       }
       this.props.updateScore(assertions, score);
-      return { assertions, score, timer, seconds, isCorret: answer.isCorrect };
+      return this.updateRanking();
     }
-    return { assertions, score, timer, seconds, isCorret: answer.isCorrect };
-  }
-
-  updateRanking() {
-    const { name, assertions, score, gravatarEmail } = this.props;
-    const state = {
-      player: {
-        name,
-        assertions,
-        score,
-        gravatarEmail,
-      },
-    };
-    localStorage.state = JSON.stringify(state);
-    if (localStorage.ranking) {
-      const newRanking = [
-        ...JSON.parse(localStorage.ranking),
-        { name, score, picture: gravatarEmail },
-      ];
-      localStorage.ranking = JSON.stringify(newRanking);
-      return newRanking;
-    }
-    localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]);
-    return { name, score, picture: gravatarEmail };
+    return this.updateRanking();
   }
 
   renderQuestions() {
@@ -190,7 +191,6 @@ class Question extends Component {
     const { redirect, disabled } = this.state;
     if (isFetching) return <div>Loading...</div>;
     if (redirect) {
-      this.updateRanking();
       return <Redirect to="/feedback" />;
     }
     return (

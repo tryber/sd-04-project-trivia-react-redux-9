@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
 
 import { tokenToLocalStorage } from '../../services/api';
-import { gettingToken, getActionsQuestions, infoLogin } from '../../redux/actions';
+import { gettingToken, getActionsQuestions, infoLogin, resetScore } from '../../redux/actions';
 
 import './Login.css';
 
@@ -17,6 +17,11 @@ class Login extends React.Component {
     };
 
     this.dispatchToProps = this.dispatchToProps.bind(this);
+  }
+
+  componentDidMount() {
+    const { resetToInitialValue } = this.props;
+    resetToInitialValue();
   }
 
   dispatchToProps() {
@@ -86,6 +91,7 @@ const mapDispatchToProps = (dispatch) => ({
   login: (email, name) => dispatch(infoLogin(email, name)),
   getToken: (token) => dispatch(gettingToken(token)),
   getQuestions: (token) => dispatch(getActionsQuestions(token)),
+  resetToInitialValue: () => dispatch(resetScore()),
 });
 
 Login.propTypes = {
@@ -93,6 +99,7 @@ Login.propTypes = {
   getToken: Proptypes.func.isRequired,
   getQuestions: Proptypes.func.isRequired,
   login: Proptypes.func.isRequired,
+  resetToInitialValue: Proptypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
