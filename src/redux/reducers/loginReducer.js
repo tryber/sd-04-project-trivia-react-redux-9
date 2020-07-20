@@ -1,4 +1,4 @@
-import { LOGIN_INFO, UPDATE_SCORE } from '../actions/index';
+import { LOGIN_INFO, UPDATE_SCORE, RESET_SCORE } from '../actions/index';
 
 const inicialState = {
   name: '',
@@ -21,6 +21,8 @@ const loginReducer = (state = inicialState, action) => {
         assertions: state.assertions + action.assertions,
         score: state.score + action.score,
       };
+    case RESET_SCORE:
+      return { ...inicialState };
     default:
       return state;
   }

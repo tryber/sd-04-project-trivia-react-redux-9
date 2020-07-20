@@ -7,6 +7,7 @@ import Links from '../../components/Links';
 class Feedback extends React.Component {
   render() {
     const { assertions, score } = this.props;
+    console.log(assertions);
 
     const messageFeedBack = assertions >= 3 ? 'Mandou bem!' : 'Podia ser melhor...';
     return (

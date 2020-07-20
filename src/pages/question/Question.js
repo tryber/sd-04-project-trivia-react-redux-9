@@ -16,12 +16,6 @@ const shuffleAnswers = (allAnswers) => {
     shuffledAnswers[index] = randomAnswer;
   });
 
-  // for (let i = shuffledAnswers.length - 1; i >= 0; i -= 1) {
-  //   const randomIndex = Math.floor(Math.random() * shuffledAnswers.length);
-  //   const valueToShuffle = shuffledAnswers[i];
-  //   shuffledAnswers[i] = shuffledAnswers[randomIndex];
-  //   shuffledAnswers[randomIndex] = valueToShuffle;
-  // }
   return shuffledAnswers;
 };
 
@@ -103,6 +97,30 @@ class Question extends Component {
     return this.setState({ answers });
   }
 
+  updateRanking() {
+    const { name, assertions, score, gravatarEmail } = this.props;
+    console.log(assertions);
+    const state = {
+      player: {
+        name,
+        assertions,
+        score,
+        gravatarEmail,
+      },
+    };
+    localStorage.state = JSON.stringify({ ...state });
+    if (localStorage.ranking) {
+      const filteredRanking = JSON.parse(localStorage.ranking).filter(
+        ({ picture }) => picture !== gravatarEmail,
+      );
+      const newRanking = [...filteredRanking, { name, score, picture: gravatarEmail }];
+      localStorage.ranking = JSON.stringify(newRanking);
+      return newRanking;
+    }
+    localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]);
+    return { name, score, picture: gravatarEmail };
+  }
+
   handleClick(answer) {
     const { timer, seconds } = this.state;
 
@@ -128,29 +146,9 @@ class Question extends Component {
           break;
       }
       this.props.updateScore(assertions, score);
+      return this.updateRanking();
     }
     return this.updateRanking();
-  }
-
-  updateRanking() {
-    const { name, assertions, score, gravatarEmail } = this.props;
-    const state = {
-      player: {
-        name,
-        assertions,
-        score,
-        gravatarEmail,
-      },
-    };
-    localStorage.state = JSON.stringify(state);
-    if (localStorage.ranking) {
-      const newRanking = [
-        ...JSON.parse(localStorage.ranking),
-        { name, score, picture: gravatarEmail },
-      ];
-      return (localStorage.ranking = JSON.stringify(newRanking));
-    }
-    return (localStorage.ranking = JSON.stringify([{ name, score, picture: gravatarEmail }]));
   }
 
   renderQuestions() {
