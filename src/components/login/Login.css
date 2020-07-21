@@ -13,8 +13,18 @@ body {
   font-family: Nunito, sans-serif;
   font-size: 18px;
   font-weight: 600;
-  padding: 50px;
+  padding: 20px 50px;
   width: 200px;
+}
+
+.gear {
+  margin-left: 200px;
+  transition-duration: 3s;
+  width: 30px;
+}
+
+.gear:hover {
+  transform: rotate(360deg);
 }
 
 .login-input {
