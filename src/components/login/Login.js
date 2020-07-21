@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
 
+
 import { tokenToLocalStorage } from '../../services/api';
 import { gettingToken, getActionsQuestions, infoLogin, resetScore } from '../../redux/actions';
 import Gear from '../../gear.png';

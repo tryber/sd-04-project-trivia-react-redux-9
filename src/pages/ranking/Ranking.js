@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './Ranking.css';
 
 function renderRanking(ranking) {
   return (
@@ -7,7 +8,7 @@ function renderRanking(ranking) {
       {ranking
         .sort((a, b) => b.score - a.score)
         .map((player, index) => (
-          <li>
+          <li className="flexbox">
             <img src={player.picture} alt={player.name} />
             <p data-testid={`player-name-${index}`}>{player.name}</p>
             <p data-testid={`player-score-${index}`}>{player.score}</p>
@@ -21,11 +22,13 @@ const Ranking = () => {
   const ranking = JSON.parse(localStorage.ranking);
 
   return (
-    <div>
-      <h3 data-testid="ranking-title">Ranking</h3>
-      <div>{renderRanking(ranking)}</div>
+    <div className="ranking-container">
+      <h3 className="ranking" data-testid="ranking-title">
+        Ranking
+      </h3>
+      <div className="list-container">{renderRanking(ranking)}</div>
       <div>
-        <button type="button" data-testid="btn-go-home">
+        <button className="voltar-inicio" type="button" data-testid="btn-go-home">
           <Link to="/">Voltar ao Início</Link>
         </button>
       </div>
