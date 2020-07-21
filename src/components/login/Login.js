@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Proptypes from 'prop-types';
-import { resetLogin } from '../../redux/actions';
+
 
 import { tokenToLocalStorage } from '../../services/api';
 import { gettingToken, getActionsQuestions, infoLogin, resetScore } from '../../redux/actions';

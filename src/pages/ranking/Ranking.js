@@ -23,7 +23,7 @@ const Ranking = () => {
 
   return (
     <div className="ranking-container">
-      <h3 data-testid="ranking-title">Ranking</h3>
+      <h3 className="ranking" data-testid="ranking-title">Ranking</h3>
       <div className="list-container">{renderRanking(ranking)}</div>
       <div>
         <Link to="/">
