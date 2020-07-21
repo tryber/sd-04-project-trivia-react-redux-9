@@ -23,14 +23,14 @@ const Ranking = () => {
 
   return (
     <div className="ranking-container">
-      <h3 className="ranking" data-testid="ranking-title">Ranking</h3>
+      <h3 className="ranking" data-testid="ranking-title">
+        Ranking
+      </h3>
       <div className="list-container">{renderRanking(ranking)}</div>
       <div>
-        <Link to="/">
-          <button className="voltar-inicio" type="button" data-testid="btn-go-home">
-            Voltar ao Início
-          </button>
-        </Link>
+        <button className="voltar-inicio" type="button" data-testid="btn-go-home">
+          <Link to="/">Voltar ao Início</Link>
+        </button>
       </div>
     </div>
   );
