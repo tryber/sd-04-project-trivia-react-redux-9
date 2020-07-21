@@ -5,6 +5,7 @@ import Proptypes from 'prop-types';
 
 import { tokenToLocalStorage } from '../../services/api';
 import { gettingToken, getActionsQuestions, infoLogin, resetScore } from '../../redux/actions';
+import Gear from '../../gear.png';
 
 import './Login.css';
 
@@ -48,7 +49,7 @@ class Login extends React.Component {
           disabled={disable}
           className="logion-button"
         >
-          JOGAR!
+          PLAY NOW!
         </button>
       </Link>
     );
@@ -57,27 +58,24 @@ class Login extends React.Component {
   render() {
     return (
       <div className="login-component">
-        <form>
-          <div>
-            <input
-              onChange={(e) => this.setState({ email: e.target.value })}
-              type="email"
-              data-testid="input-gravatar-email"
-              placeholder="E-mail"
-              className="login-input"
-            />
-          </div>
-          <div>
-            <input
-              onChange={(e) => this.setState({ name: e.target.value })}
-              type="text"
-              data-testid="input-player-name"
-              placeholder="Name"
-              className="login-input"
-            />
-          </div>
-          <div>{this.play()}</div>
-        </form>
+        <Link to="/settings">
+          <img data-testid="btn-settings" className="gear" src={Gear} alt="logo" />
+        </Link>
+        <input
+          onChange={(e) => this.setState({ name: e.target.value })}
+          type="text"
+          data-testid="input-player-name"
+          placeholder="Name"
+          className="login-input"
+        />
+        <input
+          onChange={(e) => this.setState({ email: e.target.value })}
+          type="email"
+          data-testid="input-gravatar-email"
+          placeholder="E-mail"
+          className="login-input"
+        />
+        <div>{this.play()}</div>
       </div>
     );
   }
