@@ -47,7 +47,7 @@ class Question extends Component {
 
   timer() {
     const { timer } = this.state;
-    this.setState({ seconds: 12, hurry: false });
+    this.setState({ seconds: 30 });
 
     if (timer) {
       clearInterval(timer);
@@ -76,11 +76,11 @@ class Question extends Component {
     let { questionNumber } = this.state;
     const { questions } = this.props;
     if (questionNumber === questions.length - 1) {
-      return this.setState({ redirect: true });
+      return this.setState({ redirect: true, hurry: false });
     }
     questionNumber += 1;
     this.updateRanking();
-    return this.setState({ questionNumber });
+    return this.setState({ questionNumber, hurry: false });
   }
 
   createAnswers() {
