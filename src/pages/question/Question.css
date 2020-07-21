@@ -95,3 +95,30 @@
 .btn-next:disabled {
   visibility: hidden;
 }
+
+.hurry {
+  animation: beatingHeart 1000ms normal 0s infinite;
+}
+
+@keyframes beatingHeart {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  10% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  30% {
+    opacity: 0.9;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

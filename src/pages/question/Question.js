@@ -200,7 +200,7 @@ class Question extends Component {
           {this.renderQuestions()}
           <div className="answers-options">{this.renderAnswers()}</div>
           <div className="timer-and-next-button">
-            <div className="timer">Tempo: {this.state.seconds}</div>
+            <div className="timer hurry">Tempo: {this.state.seconds}</div>
             <button
               type="button"
               data-testid="btn-next"
