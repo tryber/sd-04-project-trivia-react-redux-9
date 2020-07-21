@@ -53,7 +53,9 @@
 }
 
 .answers-option:hover {
+  background-color: rgba(97, 72, 241, 0.233);
   cursor: pointer;
+  transition: all 200ms;
 }
 
 .answers-option:disabled {
@@ -61,6 +63,7 @@
   color: black;
   cursor: default;
   opacity: 0.7;
+  transition: none;
 }
 
 .correct {

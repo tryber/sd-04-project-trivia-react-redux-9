@@ -5,7 +5,7 @@ import Proptypes from 'prop-types';
 
 
 import { tokenToLocalStorage } from '../../services/api';
-import { gettingToken, getActionsQuestions, infoLogin, resetScore } from '../../redux/actions';
+import { gettingToken, dispatchQuestions, infoLogin, resetScore } from '../../redux/actions';
 import Gear from '../../gear.png';
 
 import './Login.css';
@@ -89,7 +89,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   login: (email, name) => dispatch(infoLogin(email, name)),
   getToken: (token) => dispatch(gettingToken(token)),
-  getQuestions: (token) => dispatch(getActionsQuestions(token)),
+  getQuestions: (token) => dispatch(dispatchQuestions(token)),
   resetToInitialValue: () => dispatch(resetScore()),
 });
 
