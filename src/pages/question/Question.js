@@ -30,6 +30,7 @@ class Question extends Component {
       answers: [],
       timer: false,
       disabled: false,
+      hurry: false,
     };
     this.nextQuestion = this.nextQuestion.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -44,6 +45,12 @@ class Question extends Component {
     }
   }
 
+  handleHurry(seconds) {
+    if (seconds <= 10) {
+      this.setState({ hurry: true });
+    }
+  }
+
   timer() {
     const { timer } = this.state;
     this.setState({ seconds: 30 });
@@ -54,6 +61,7 @@ class Question extends Component {
 
     const timerFunc = setInterval(() => {
       const { seconds } = this.state;
+      this.handleHurry(seconds);
       if (seconds <= 1) {
         this.setState({ disabled: true });
         clearInterval(timer);
@@ -73,10 +81,11 @@ class Question extends Component {
     let { questionNumber } = this.state;
     const { questions } = this.props;
     if (questionNumber === questions.length - 1) {
-      return this.setState({ redirect: true });
+      return this.setState({ redirect: true, hurry: false });
     }
     questionNumber += 1;
-    return this.setState({ questionNumber });
+    this.updateRanking();
+    return this.setState({ questionNumber, hurry: false });
   }
 
   createAnswers() {
@@ -146,9 +155,8 @@ class Question extends Component {
           break;
       }
       this.props.updateScore(assertions, score);
-      return this.updateRanking();
     }
-    return this.updateRanking();
+    return score;
   }
 
   renderQuestions() {
@@ -188,7 +196,7 @@ class Question extends Component {
 
   render() {
     const { isFetching } = this.props;
-    const { redirect, disabled } = this.state;
+    const { redirect, disabled, hurry } = this.state;
     if (isFetching) return <div>Loading...</div>;
     if (redirect) {
       return <Redirect to="/feedback" />;
@@ -200,7 +208,9 @@ class Question extends Component {
           {this.renderQuestions()}
           <div className="answers-options">{this.renderAnswers()}</div>
           <div className="timer-and-next-button">
-            <div className="timer">Tempo: {this.state.seconds}</div>
+            <div className={hurry && !disabled ? 'hurry timer' : 'timer'}>
+              Tempo: {this.state.seconds}
+            </div>
             <button
               type="button"
               data-testid="btn-next"
